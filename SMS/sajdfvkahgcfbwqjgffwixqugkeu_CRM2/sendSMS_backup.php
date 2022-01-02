@@ -58,7 +58,6 @@ try{
     	$fileNameNoParameters = explode('?',$attch);
     	$file = explode('/',$fileNameNoParameters[0]);
     	$fileName = $file[count($file) - 1];
-    	$errorString = 'NoSuchKey';
     	//$fileContent = file_get_contents($attch, false, stream_context_create($arrContextOptions));
     	//if(isset($fileContent)) $files[0] = array("FileName"=>$fileName,"FileContent"=>$fileContent);
     	//else {
@@ -73,29 +72,28 @@ try{
 			curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($cURLConnection, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($cURLConnection, CURLOPT_SSL_VERIFYPEER, false);
-    		sleep(7);
 			$fileContent = curl_exec($cURLConnection);
 			//var_dump($sendtogw);
-  
-			if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
+    		
+			if($fileContent === false || strpos(strval($fileContent), 'The specified key does not exist.') !== false) {
             	$curl_error = curl_error($cURLConnection);
-            	sleep(5);
+            	sleep(2);
             	$fileContent = curl_exec($cURLConnection);
-            	if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
+            	if($fileContent === false || strpos(strval($fileContent), 'The specified key does not exist.') !== false) {
             		$curl_error = curl_error($cURLConnection);
-            		sleep(5);
+            		sleep(2);
             		$fileContent = curl_exec($cURLConnection);
-                	if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
+                	if($fileContent === false || strpos(strval($fileContent), 'The specified key does not exist.') !== false) {
             			$curl_error = curl_error($cURLConnection);
-            			sleep(5);
+            			sleep(2);
             			$fileContent = curl_exec($cURLConnection);
-                    	if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
+                    	if($fileContent === false || strpos(strval($fileContent), 'The specified key does not exist.') !== false) {
             				$curl_error = curl_error($cURLConnection);
-            				sleep(5);
+            				sleep(2);
             				$fileContent = curl_exec($cURLConnection);
-                    		if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
+                    		if($fileContent === false || strpos(strval($fileContent), 'The specified key does not exist.') !== false) {
             					$curl_error = curl_error($cURLConnection);
-            					sleep(5);
+            					sleep(2);
             					$fileContent = curl_exec($cURLConnection);
                     			if($fileContent === false) $curl_error = curl_error($cURLConnection);
             				}
@@ -136,6 +134,6 @@ $content["date"] = date("F j, Y, g:i a");
 //$content["attchs"] = $files?$files:[];
 $content['curl_error'] = $curl_error?$curl_error:"";
 $content['result'] = $result;
-file_put_contents("log_send_".$sender.".txt", print_r($content, true), FILE_APPEND);*/
+file_put_contents("log_send-test_".$sender.".txt", print_r($content, true), FILE_APPEND);*/
 
 ?>

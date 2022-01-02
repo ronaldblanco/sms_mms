@@ -82,10 +82,10 @@ echo $sendToCrm2;
 	echo "Access Denied!</br>";
 }
 
-/*$content = $_GET;
+$content = $_GET;
 $content['$sendToCrm2'] = $sendToCrm2;
 $content['url'] = $url;
 $content["date"] = date("F j, Y, g:i a");
-file_put_contents("log_".$recipient.".txt", print_r($content, true), FILE_APPEND);*/
+file_put_contents("log_".$recipient.".txt", print_r($content, true), FILE_APPEND);
 
 ?>
