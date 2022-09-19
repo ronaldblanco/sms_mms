@@ -26,6 +26,7 @@ if (isset($_POST['to']) /*&& isset($_POST['body'])*/ && isset($_POST['from'])){
 }
 
 if(strlen($sender) == 10) $sender = '1'.$sender;
+if(strlen($message) > 2000) $message = substr( $message, 0, 1996)."...";
 
 $key = isset($_POST['key']) ? $_POST['key'] : 0;
 $type = isset($_POST['type']) ? $_POST['type'] : 'sms';
@@ -40,11 +41,23 @@ try{
 	$soapclient = new SoapClient($env['voipprovider']);
 	
 	if($type == 'sms'){
-    	$param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message);
-		$response =$soapclient->SendSMS($param);
     
-    	$result = json_encode($response);
-		$smsresult = $response->SendSMSResult->responseMessage;
+    	if($message != ''){
+        
+        	$param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message);
+			$response =$soapclient->SendSMS($param);
+    
+    		$result = json_encode($response);
+			$smsresult = $response->SendSMSResult->responseMessage;
+        
+        } else {
+        	
+        	$result = '{"SendSMSResult":{"responseCode":900,"responseMessage":"Message is required","DIDs":{}}}';
+        	$smsresult = '{"SendSMSResult":{"responseCode":900,"responseMessage":"Message is required","DIDs":{}}}';
+        	//$smsresult = null;
+        
+        }
+    	
     
     } else {
     
@@ -55,9 +68,13 @@ try{
         	),
     	);  
     
-    	$fileNameNoParameters = explode('?',$attch);
-    	$file = explode('/',$fileNameNoParameters[0]);
-    	$fileName = $file[count($file) - 1];
+    	if($attch != ''){
+        	$fileNameNoParameters = explode('?',$attch);
+    		$file = explode('/',$fileNameNoParameters[0]);
+    		$fileName = $file[count($file) - 1];
+        }else{
+        	
+        }
     	$errorString = 'NoSuchKey';
     	//$fileContent = file_get_contents($attch, false, stream_context_create($arrContextOptions));
     	//if(isset($fileContent)) $files[0] = array("FileName"=>$fileName,"FileContent"=>$fileContent);
@@ -74,10 +91,10 @@ try{
 			curl_setopt($cURLConnection, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($cURLConnection, CURLOPT_SSL_VERIFYPEER, false);
     		sleep(7);
-			$fileContent = curl_exec($cURLConnection);
+			if($attch != '') $fileContent = curl_exec($cURLConnection);
 			//var_dump($sendtogw);
   
-			if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
+			if($attch != '') if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
             	$curl_error = curl_error($cURLConnection);
             	sleep(5);
             	$fileContent = curl_exec($cURLConnection);
@@ -103,15 +120,17 @@ try{
             		}
             	}
             }
-			curl_close($cURLConnection);
+			if($attch != '') curl_close($cURLConnection);
 			//###################################################################
         
-        	$files[0] = array("FileName"=>$fileName,"FileContent"=>$fileContent);
+        	if($attch != '') $files[0] = array("FileName"=>$fileName,"FileContent"=>$fileContent);
+    		else $files = null;
         	
         //}
     	//var_dump($_POST);
     	//var_dump($file[count($file) - 1]);
-    	$param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message, 'files'=>$files);
+    	if($files != null) $param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message, 'files'=>$files);
+    	else $param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message);
 		$response =$soapclient->SendMMS($param);
     
     	$result = json_encode($response);
@@ -131,11 +150,11 @@ try{
 	echo "Access Denied!";
 }
 
-/*$content = $_POST;
+$content = $_POST;
 $content["date"] = date("F j, Y, g:i a");
-//$content["attchs"] = $files?$files:[];
+$content["attchs"] = isset($files)?$files:[];
 $content['curl_error'] = $curl_error?$curl_error:"";
 $content['result'] = $result;
-file_put_contents("log_send_".$sender.".txt", print_r($content, true), FILE_APPEND);*/
+file_put_contents("log_send_test".$sender.".txt", print_r($content, true), FILE_APPEND);
 
 ?>

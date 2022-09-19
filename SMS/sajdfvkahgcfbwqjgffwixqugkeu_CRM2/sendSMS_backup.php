@@ -40,11 +40,22 @@ try{
 	$soapclient = new SoapClient($env['voipprovider']);
 	
 	if($type == 'sms'){
-    	$param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message);
-		$response =$soapclient->SendSMS($param);
+    	
+    	if($message != ''){
+        
+        	$param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message);
+			$response =$soapclient->SendSMS($param);
     
-    	$result = json_encode($response);
-		$smsresult = $response->SendSMSResult->responseMessage;
+    		$result = json_encode($response);
+			$smsresult = $response->SendSMSResult->responseMessage;
+        
+        } else {
+        	
+        	$result = '{"SendSMSResult":{"responseCode":900,"responseMessage":"Message is required","DIDs":{}}}';
+        	$smsresult = '{"SendSMSResult":{"responseCode":900,"responseMessage":"Message is required","DIDs":{}}}';
+        	//$smsresult = null;
+        
+        }
     
     } else {
     

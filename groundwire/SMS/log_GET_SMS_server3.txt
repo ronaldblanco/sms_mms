@@ -1,0 +1,30 @@
+Array
+(
+    [result] => false
+    [out_of_pbx] => +OK
+    [GET] => Array
+        (
+            [messageType] => SMS
+            [to] => 17868293677
+            [from] => 17863342521
+            [text] => Test3
+            [token] => sjhvakvhbkveu2u9y927498fedh39chb32yc79gy12c93u2b
+        )
+
+    [date] => March 9, 2022, 12:28 pm
+)
+Array
+(
+    [result] => false
+    [out_of_pbx] => +OK
+    [GET] => Array
+        (
+            [messageType] => SMS
+            [to] => 17868293677
+            [from] => 17863342521
+            [text] => Test4
+            [token] => sjhvakvhbkveu2u9y927498fedh39chb32yc79gy12c93u2b
+        )
+
+    [date] => March 9, 2022, 12:37 pm
+)

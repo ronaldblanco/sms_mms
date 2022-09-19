@@ -1,0 +1,160 @@
+Array
+(
+    [body] => aGVsbG8gZnJvbSBncm91cA==
+    [from] => 7867862278
+    [to] => 7863342521
+    [key] => d13ae7c3ad114d63bd831ec0836323b3
+    [type] => sms
+    [attch] => 
+    [date] => September 12, 2022, 12:06 pm
+    [attchs] => Array
+        (
+        )
+
+    [curl_error] => 
+    [result] => {"SendSMSResult":{"responseCode":100,"responseMessage":"Success","DIDs":{},"MsgDetails":{"success":true,"code":"200","data":"","status":"SENT","uuid":"4cf1823d-e1da-4b4c-9826-23b9820b31b0"}}}
+)
+Array
+(
+    [body] => WWVzIGZyb20gdGhlIGdyb3Vw
+    [from] => 7867862278
+    [to] => 3056001217
+    [key] => d13ae7c3ad114d63bd831ec0836323b3
+    [type] => sms
+    [attch] => 
+    [date] => September 12, 2022, 12:11 pm
+    [attchs] => Array
+        (
+        )
+
+    [curl_error] => 
+    [result] => {"SendSMSResult":{"responseCode":100,"responseMessage":"Success","DIDs":{},"MsgDetails":{"success":true,"code":"200","data":"","status":"SENT","uuid":"51f6b1be-7359-46ac-bbf6-38c883f51742"}}}
+)
+Array
+(
+    [body] => eWVzc3M=
+    [from] => 7867862278
+    [to] => 47830461701111
+    [key] => d13ae7c3ad114d63bd831ec0836323b3
+    [type] => sms
+    [attch] => 
+    [date] => September 12, 2022, 1:20 pm
+    [attchs] => Array
+        (
+        )
+
+    [curl_error] => 
+    [result] => {"SendSMSResult":{"responseCode":100,"responseMessage":"Success","DIDs":{},"MsgDetails":{"success":true,"code":"200","data":"","status":"SENT","uuid":"6caadad6-ffe4-4a5d-a73d-3ecc42754c0d"}}}
+)
+Array
+(
+    [body] => WWVzc3Nzc3M=
+    [from] => 7867862278
+    [to] => 7863342521
+    [key] => d13ae7c3ad114d63bd831ec0836323b3
+    [type] => sms
+    [attch] => 
+    [date] => September 13, 2022, 10:31 am
+    [attchs] => Array
+        (
+        )
+
+    [curl_error] => 
+    [result] => {"SendSMSResult":{"responseCode":100,"responseMessage":"Success","DIDs":{},"MsgDetails":{"success":true,"code":"200","data":"","status":"SENT","uuid":"fa2d8ac2-d74b-4ffe-a018-22dd12bd3d2c"}}}
+)
+Array
+(
+    [body] => aGhoaGhoaGhoaGhoaGhoaGg=
+    [from] => 7867862278
+    [to] => 47830461701111
+    [key] => d13ae7c3ad114d63bd831ec0836323b3
+    [type] => sms
+    [attch] => 
+    [date] => September 13, 2022, 10:32 am
+    [attchs] => Array
+        (
+        )
+
+    [curl_error] => 
+    [result] => {"SendSMSResult":{"responseCode":100,"responseMessage":"Success","DIDs":{},"MsgDetails":{"success":true,"code":"200","data":"","status":"SENT","uuid":"43d8c131-bfec-4b32-9908-e9533595ef7c"}}}
+)
+Array
+(
+    [body] => dnZ2dnZ2dnZ2dnZ2dnY=
+    [from] => 7867862278
+    [to] => 47830461701111
+    [key] => d13ae7c3ad114d63bd831ec0836323b3
+    [type] => sms
+    [attch] => 
+    [date] => September 13, 2022, 10:32 am
+    [attchs] => Array
+        (
+        )
+
+    [curl_error] => 
+    [result] => {"SendSMSResult":{"responseCode":100,"responseMessage":"Success","DIDs":{},"MsgDetails":{"success":true,"code":"200","data":"","status":"SENT","uuid":"10a4e0e1-91cb-4ae9-9d96-ba98ab914e95"}}}
+)
+Array
+(
+    [body] => dGVzdCAxMjM=
+    [from] => 7867862278
+    [to] => 7867658100
+    [key] => d13ae7c3ad114d63bd831ec0836323b3
+    [type] => sms
+    [attch] => 
+    [date] => September 13, 2022, 11:15 am
+    [attchs] => Array
+        (
+        )
+
+    [curl_error] => 
+    [result] => {"SendSMSResult":{"responseCode":100,"responseMessage":"Success","DIDs":{},"MsgDetails":{"success":true,"code":"200","data":"","status":"SENT","uuid":"52e79515-1a45-4a0e-a02c-96b88894fa4e"}}}
+)
+Array
+(
+    [body] => MTIzNDU2Nzg5
+    [from] => 7867862278
+    [to] => 7867648100
+    [key] => d13ae7c3ad114d63bd831ec0836323b3
+    [type] => sms
+    [attch] => 
+    [date] => September 13, 2022, 11:15 am
+    [attchs] => Array
+        (
+        )
+
+    [curl_error] => 
+    [result] => {"SendSMSResult":{"responseCode":100,"responseMessage":"Success","DIDs":{},"MsgDetails":{"success":true,"code":"200","data":"","status":"SENT","uuid":"41cebd0d-2de2-4548-9053-b6f180916941"}}}
+)
+Array
+(
+    [body] => OTg3NjU0MzIx
+    [from] => 7867862278
+    [to] => 7867648100
+    [key] => d13ae7c3ad114d63bd831ec0836323b3
+    [type] => sms
+    [attch] => 
+    [date] => September 13, 2022, 11:16 am
+    [attchs] => Array
+        (
+        )
+
+    [curl_error] => 
+    [result] => {"SendSMSResult":{"responseCode":100,"responseMessage":"Success","DIDs":{},"MsgDetails":{"success":true,"code":"200","data":"","status":"SENT","uuid":"747c1609-a80e-452c-abcd-6a96d57778f8"}}}
+)
+Array
+(
+    [body] => Y2FtYmlv
+    [from] => 7867862278
+    [to] => 7867648100
+    [key] => d13ae7c3ad114d63bd831ec0836323b3
+    [type] => sms
+    [attch] => 
+    [date] => September 13, 2022, 12:24 pm
+    [attchs] => Array
+        (
+        )
+
+    [curl_error] => 
+    [result] => {"SendSMSResult":{"responseCode":100,"responseMessage":"Success","DIDs":{},"MsgDetails":{"success":true,"code":"200","data":"","status":"SENT","uuid":"7e54766e-f2d4-411b-991d-b5d347d10c05"}}}
+)

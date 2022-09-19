@@ -55,9 +55,13 @@ try{
         	),
     	);  
     
-    	$fileNameNoParameters = explode('?',$attch);
-    	$file = explode('/',$fileNameNoParameters[0]);
-    	$fileName = $file[count($file) - 1];
+    	if($attch != ''){
+        	$fileNameNoParameters = explode('?',$attch);
+    		$file = explode('/',$fileNameNoParameters[0]);
+    		$fileName = $file[count($file) - 1];
+        }else{
+        	
+        }
     	$errorString = 'NoSuchKey';
     	//$fileContent = file_get_contents($attch, false, stream_context_create($arrContextOptions));
     	//if(isset($fileContent)) $files[0] = array("FileName"=>$fileName,"FileContent"=>$fileContent);
@@ -74,10 +78,10 @@ try{
 			curl_setopt($cURLConnection, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($cURLConnection, CURLOPT_SSL_VERIFYPEER, false);
     		sleep(7);
-			$fileContent = curl_exec($cURLConnection);
+			if($attch != '') $fileContent = curl_exec($cURLConnection);
 			//var_dump($sendtogw);
   
-			if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
+			if($attch != '') if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
             	$curl_error = curl_error($cURLConnection);
             	sleep(5);
             	$fileContent = curl_exec($cURLConnection);
@@ -103,15 +107,17 @@ try{
             		}
             	}
             }
-			curl_close($cURLConnection);
+			if($attch != '') curl_close($cURLConnection);
 			//###################################################################
         
-        	$files[0] = array("FileName"=>$fileName,"FileContent"=>$fileContent);
+        	if($attch != '') $files[0] = array("FileName"=>$fileName,"FileContent"=>$fileContent);
+    		else $files = null;
         	
         //}
     	//var_dump($_POST);
     	//var_dump($file[count($file) - 1]);
-    	$param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message, 'files'=>$files);
+    	if($files != null) $param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message, 'files'=>$files);
+    	else $param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message);
 		$response =$soapclient->SendMMS($param);
     
     	$result = json_encode($response);

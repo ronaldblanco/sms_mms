@@ -22,7 +22,7 @@
 if (isset($_POST['to']) /*&& isset($_POST['body'])*/ && isset($_POST['from'])){
 	$sender = isset($_POST['from']) ? trim(str_replace("+","",$_POST["from"])) : '';
 	$recipient = isset($_POST['to']) ? trim(str_replace("+","",$_POST["to"])) : '';
-	$message = isset($_POST['body']) ? base64_decode($_POST["body"]) : '';
+	$message = isset($_POST['body']) ? /*base64_decode(*/$_POST["body"]/*)*/ : '';
 }
 
 if(strlen($sender) == 10) $sender = '1'.$sender;
@@ -37,14 +37,50 @@ $SMSpass = $env['SMSpass'];
 if(isset($key) && $key === $env['key']){
 
 try{
-	$soapclient = new SoapClient($env['voipprovider']);
-	
+	//$soapclient = new SoapClient($env['voipprovider']);
+		
 	if($type == 'sms'){
-    	$param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message);
-		$response =$soapclient->SendSMS($param);
+    
+    	$payload=array(
+        
+        	'from'=>$sender,
+        	'to'=>$recipient,
+        	'text'=>$message,
+        	'messageType'=>'SMS'
+        );
+    
+    	/*$auth = array(
+        	'username'=>$SMSuser,
+        	'password'=>$SMSpass
+        );*/
+		//$response =$soapclient->SendSMS($param);
+    
+    		$send_sms_error = "";
+			$cURLConnectionSms = curl_init();
+			curl_setopt($cURLConnectionSms, CURLOPT_URL, "https://mysmsforward.com/sms/out/");
+			curl_setopt($cURLConnectionSms, CURLOPT_RETURNTRANSFER, true);
+    		curl_setopt($cURLConnectionSms, CURLINFO_HEADER_OUT, true);
+			//curl_setopt($cURLConnectionSms, CURLOPT_SSL_VERIFYHOST, false);
+			//curl_setopt($cURLConnectionSms, CURLOPT_SSL_VERIFYPEER, false);
+    		curl_setopt($cURLConnectionSms, CURLOPT_POST, true);
+    		
+    		curl_setopt($cURLConnectionSms, CURLOPT_POSTFIELDS, $payload);
+    		curl_setopt($cURLConnectionSms, CURLOPT_USERPWD, $SMSuser . ":" . $SMSpass);
+    		// Set HTTP Header for POST request 
+			curl_setopt($cURLConnectionSms, CURLOPT_HTTPHEADER, array(
+    			'Content-Type: application/json',
+    			'Content-Length: ' . strlen($payload))//,
+                //'Authorization: basic ' . $auth,
+			);
+    
+    		$response = curl_exec($cURLConnectionSms);
+            $send_sms_error = curl_error($cURLConnectionSms);
     
     	$result = json_encode($response);
-		$smsresult = $response->SendSMSResult->responseMessage;
+    	var_dump($result);
+    	var_dump($send_sms_error);
+		//$smsresult = $response->SendSMSResult->responseMessage;
+    	curl_close($cURLConnectionSms);
     
     } else {
     
@@ -53,31 +89,41 @@ try{
             	"verify_peer"=>false,
             	"verify_peer_name"=>false,
         	),
-    	);  
+    	);
     
-    	$fileNameNoParameters = explode('?',$attch);
-    	$file = explode('/',$fileNameNoParameters[0]);
-    	$fileName = $file[count($file) - 1];
+    	//if($attch == '') $attch = [];
+    
+    	if($attch != ''){
+        	$fileNameNoParameters = explode('?',$attch);
+    		$file = explode('/',$fileNameNoParameters[0]);
+    		$fileName = $file[count($file) - 1];
+        }else{
+        	
+        }
+    	
     	$errorString = 'NoSuchKey';
-    	//$fileContent = file_get_contents($attch, false, stream_context_create($arrContextOptions));
-    	//if(isset($fileContent)) $files[0] = array("FileName"=>$fileName,"FileContent"=>$fileContent);
-    	//else {
-        
-        	//#################################################
-        	//$crmNotification = $env['crm2getmessagenotificationextapp']."?from=" . $sender . "&to=" . $recipient . "&text=".$comment . "&type=sms";
-    		//Send comment to groundwire with curl ##############################
-    		//sleep(2);
+    	
 			$curl_error = "";
 			$cURLConnection = curl_init();
 			curl_setopt($cURLConnection, CURLOPT_URL, $attch);
 			curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+    		//curl_setopt($cURLConnection, CURLINFO_HEADER_OUT, true);
 			curl_setopt($cURLConnection, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($cURLConnection, CURLOPT_SSL_VERIFYPEER, false);
+    		//curl_setopt($cURLConnection, CURLOPT_POST, true);
+    		
+    		/*curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $payload);
+    		// Set HTTP Header for POST request 
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    			'Content-Type: application/json',
+    			'Content-Length: ' . strlen($payload))
+			);*/
+    
     		sleep(7);
-			$fileContent = curl_exec($cURLConnection);
+			if($attch != '') $fileContent = curl_exec($cURLConnection);
 			//var_dump($sendtogw);
   
-			if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
+			if($attch != '') if($fileContent === false || strpos(strval($fileContent), $errorString) !== false) {
             	$curl_error = curl_error($cURLConnection);
             	sleep(5);
             	$fileContent = curl_exec($cURLConnection);
@@ -103,15 +149,17 @@ try{
             		}
             	}
             }
-			curl_close($cURLConnection);
+			if($attch != '') curl_close($cURLConnection);
 			//###################################################################
         
-        	$files[0] = array("FileName"=>$fileName,"FileContent"=>$fileContent);
+        	if($attch != '') $files[0] = array("FileName"=>$fileName,"FileContent"=>$fileContent);
+    		else $files = null;
         	
         //}
     	//var_dump($_POST);
     	//var_dump($file[count($file) - 1]);
-    	$param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message, 'files'=>$files);
+    	if($files != null) $param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message, 'files'=>$files);
+    	else $param=array('login'=>$SMSuser,'secret'=>$SMSpass,'sender'=>$sender,'recipient'=>$recipient,'message'=>$message);
 		$response =$soapclient->SendMMS($param);
     
     	$result = json_encode($response);
